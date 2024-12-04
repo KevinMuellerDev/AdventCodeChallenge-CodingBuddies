@@ -1,0 +1,7 @@
+{
+  "name": "adventcalender",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
