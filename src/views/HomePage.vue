@@ -1,56 +1,35 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <ion-list>
+      <ion-item>
+        <ion-input label="Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-modal :keep-contents-mounted="true">
+          <ion-datetime v-model="age" id="datetime" presentation="date"></ion-datetime>
+        </ion-modal>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Address"></ion-input>
+      </ion-item>
+    </ion-list>
+    <p>{{ now }}</p>
 
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div>
-    </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonInput, IonDatetime, IonDatetimeButton, IonModal } from '@ionic/vue';
+import { ref,computed } from 'vue';
+
+const name = ref(''); // Initialisierter Name als leerer String
+const age = ref(new Date(Date.now()).toISOString());   // Initialisiertes Alter als Zahl
+const now = computed(() => new Date(age.value).toDateString());
 </script>
 
-<style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+<style scoped lang="scss">
+ion-datetime-button::part(time-button) {
+  display: none;
 }
 </style>
