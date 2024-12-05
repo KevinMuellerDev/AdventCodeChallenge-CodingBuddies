@@ -1,35 +1,72 @@
 <template>
-  <ion-page>
+  <ion-page class="form-content">
     <ion-list>
-      <ion-item>
-        <ion-input label="Name"></ion-input>
+      <ion-item class="input-col">
+        <ion-input type="string" placeholder="Bitte Namen eingeben..." v-model="form.name" @input="validateName"
+          :class="{ invalid: !isNameValid }" label="Name"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
-        <ion-modal :keep-contents-mounted="true">
-          <ion-datetime v-model="age" id="datetime" presentation="date"></ion-datetime>
-        </ion-modal>
+      <p v-if="!isNameValid" class="error-message">Name should only contain letters.</p>
+      <ion-item class="input-col">
+        <ion-input v-model="form.age" @input="validateAge" :class="{ invalid: !isAgeValid }"
+          placeholder="Bitte geben Sie ihr Alter an..." type="number" label="Alter"></ion-input>
       </ion-item>
+      <p v-if="!isAgeValid" class="error-message">Age must be between 0-99.</p>
       <ion-item>
-        <ion-input label="Address"></ion-input>
+        <ion-input type="string" v-model="form.address" @input="validateAddress" label="Adresse"></ion-input>
       </ion-item>
+      <p v-if="!isAddressValid" class="error-message">Address can't be empty.</p>
     </ion-list>
-    <p>{{ now }}</p>
 
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonInput, IonDatetime, IonDatetimeButton, IonModal } from '@ionic/vue';
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
 
-const name = ref(''); // Initialisierter Name als leerer String
-const age = ref(new Date(Date.now()).toISOString());   // Initialisiertes Alter als Zahl
-const now = computed(() => new Date(age.value).toDateString());
+let form = {
+  "name": '',
+  "age": '',
+  "address": ''
+};
+
+const isNameValid = ref(true);
+const isAgeValid = ref(true);
+const isAddressValid = ref(true);
+
+const validateName = () => {
+  isNameValid.value = /^[a-zA-Z\s]+$/.test(form.name.trim()) && form.name.length != 0;
+};
+
+const validateAge = () => {
+  const ageValue = parseInt(form.age, 10);
+  isAgeValid.value = !isNaN(ageValue) && ageValue >= 0 && ageValue <= 99 && ageValue != 0;
+}
+
+const validateAddress = () => {
+  isAddressValid.value = form.address.length != 0;
+}
+
 </script>
 
 <style scoped lang="scss">
 ion-datetime-button::part(time-button) {
   display: none;
+}
+
+.error-message {
+  margin: 0 20px;
+  color: red;
+  font-size: 0.6em;
+}
+
+.input-col {
+  width: 90%;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
