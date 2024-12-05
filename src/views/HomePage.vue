@@ -3,16 +3,16 @@
     <ion-list>
       <ion-item class="input-col">
         <ion-input type="string" placeholder="Bitte Namen eingeben..." v-model="form.name" @input="validateName"
-          :class="{ invalid: !isNameValid }" label="Name"></ion-input>
+          label="Name"></ion-input>
       </ion-item>
       <p v-if="!isNameValid" class="error-message">Name should only contain letters.</p>
       <ion-item class="input-col">
-        <ion-input v-model="form.age" @input="validateAge" :class="{ invalid: !isAgeValid }"
-          placeholder="Bitte geben Sie ihr Alter an..." type="number" label="Alter"></ion-input>
+        <ion-input v-model="form.age" @input="validateAge" placeholder="Bitte geben Sie ihr Alter an..." type="number"
+          label="Alter"></ion-input>
       </ion-item>
-      <p v-if="!isAgeValid" class="error-message">Age must be between 0-99.</p>
-      <ion-item>
-        <ion-input type="string" v-model="form.address" @input="validateAddress" label="Adresse"></ion-input>
+      <p v-if="!isAgeValid" class="error-message">Age must be between 3-99.</p>
+      <ion-item class="input-col">
+        <ion-input type="string" v-model="form.address" @input="validateAddress" placeholder="Bitte Adresse angeben..." label="Adresse"></ion-input>
       </ion-item>
       <p v-if="!isAddressValid" class="error-message">Address can't be empty.</p>
     </ion-list>
@@ -22,13 +22,19 @@
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonInput, IonDatetime, IonDatetimeButton, IonModal } from '@ionic/vue';
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 
-let form = {
+interface Form {
+  name:string;
+  age:number | null;
+  address:string;
+}
+
+const form = reactive<Form>( {
   "name": '',
-  "age": '',
+  "age":null,
   "address": ''
-};
+});
 
 const isNameValid = ref(true);
 const isAgeValid = ref(true);
@@ -39,12 +45,12 @@ const validateName = () => {
 };
 
 const validateAge = () => {
-  const ageValue = parseInt(form.age, 10);
-  isAgeValid.value = !isNaN(ageValue) && ageValue >= 0 && ageValue <= 99 && ageValue != 0;
+  const ageValue = form.age;
+  isAgeValid.value = !isNaN(form.age!) && form.age! >= 3 && form.age! <= 99 && ageValue != 0;
 }
 
 const validateAddress = () => {
-  isAddressValid.value = form.address.length != 0;
+  isAddressValid.value = /^[a-zA-Z0-9\s\-]+$/.test(form.address.trim()) && form.address.length != 0;
 }
 
 </script>

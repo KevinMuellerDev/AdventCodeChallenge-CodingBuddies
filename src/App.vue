@@ -6,20 +6,25 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="content">
-      <ion-router-outlet aria-label="content"/>
+      <ion-router-outlet aria-label="content" />
     </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-title>Footer Toolbar</ion-title>
+      </ion-toolbar>
+    </ion-footer>
   </ion-app>
 </template>
 
 <script setup lang="ts">
-import { IonApp, IonRouterOutlet,IonHeader,IonToolbar,IonTitle, IonContent } from '@ionic/vue';
+import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 </script>
 
 <style lang="scss">
-  ion-app{
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+ion-app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>
