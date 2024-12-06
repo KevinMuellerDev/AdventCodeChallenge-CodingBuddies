@@ -2,17 +2,17 @@
   <ion-page class="form-content">
     <ion-list>
       <ion-item class="input-col">
-        <ion-input type="string" placeholder="Bitte Namen eingeben..." v-model="form.name" @input="validateName"
+        <ion-input placeholder="Bitte Müll eingeben..." v-model="form.name" @input="validateName"
           label="Name"></ion-input>
       </ion-item>
       <p v-if="!isNameValid" class="error-message">Name should only contain letters.</p>
       <ion-item class="input-col">
-        <ion-input v-model="form.age" @input="validateAge" placeholder="Bitte geben Sie ihr Alter an..." type="number"
+        <ion-input v-model="form.age" type="number" @input="validateAge" placeholder="Bitte geben Sie ihr Alter an..."
           label="Alter"></ion-input>
       </ion-item>
       <p v-if="!isAgeValid" class="error-message">Age must be between 3-99.</p>
       <ion-item class="input-col">
-        <ion-input type="string" v-model="form.address" @input="validateAddress" placeholder="Bitte Adresse angeben..." label="Adresse"></ion-input>
+        <ion-input v-model="form.address" @input="validateAddress" placeholder="Bitte Adresse angeben..." label="Adresse"></ion-input>
       </ion-item>
       <p v-if="!isAddressValid" class="error-message">Address can't be empty.</p>
     </ion-list>
@@ -26,13 +26,13 @@ import { ref, computed, reactive } from 'vue';
 
 interface Form {
   name:string;
-  age:number | null;
+  age:string | number | undefined;
   address:string;
 }
 
 const form = reactive<Form>( {
   "name": '',
-  "age":null,
+  "age":undefined,
   "address": ''
 });
 
@@ -45,8 +45,8 @@ const validateName = () => {
 };
 
 const validateAge = () => {
-  const ageValue = form.age;
-  isAgeValid.value = !isNaN(form.age!) && form.age! >= 3 && form.age! <= 99 && ageValue != 0;
+  const ageValue = Number(form.age);
+  isAgeValid.value = !isNaN(ageValue) && ageValue >= 3 && ageValue <= 99 && ageValue != 0;
 }
 
 const validateAddress = () => {
